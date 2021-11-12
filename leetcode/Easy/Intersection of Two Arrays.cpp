@@ -7,11 +7,11 @@ using namespace std;
 
 vector<int> intersection(vector<int>& nums1, vector<int>& nums2)
 {
-    unordered_map<int, int> mp;
+    unordered_map<int, bool> mp;
     vector<int> ans;
     for(int i:nums1)
     {
-        mp[i]++;
+        mp[i] = 1;
     }
     for(int i:nums2)
     {
