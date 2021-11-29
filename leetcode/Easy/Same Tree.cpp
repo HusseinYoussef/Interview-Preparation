@@ -13,16 +13,11 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-bool rec(TreeNode* p, TreeNode* q)
+bool isSameTree(TreeNode* p, TreeNode* q)
 {
-    if(!p && !q)
+    if(p == nullptr && q == nullptr)
         return true;
-    if((p && !q) || (!p && q) || (p->val != q->val))
+    if(p == nullptr || q == nullptr || p->val != q->val)
         return false;
-    return rec(p->left, q->left) & rec(p->right, q->right);
-}
-
-int main()
-{
-    return 0;
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 }
