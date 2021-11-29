@@ -17,11 +17,12 @@ ListNode* removeElements(ListNode* head, int val)
     {
         if(cur->val == val)
         {
-            if(cur == head)
+            // Head to be moved
+            if(pre == nullptr)
             {
                 head = head->next;
             }
-            if(pre)
+            else
             {
                 pre->next = cur->next;
             }
