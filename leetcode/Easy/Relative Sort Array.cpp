@@ -6,16 +6,19 @@ using namespace std;
 
 vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2)
 {
+    // O(N+M) Time & O(1) Space
+    
     int freq[1005];
     memset(freq, 0, sizeof(freq));
     for (int i = 0; i < arr1.size();++i)
         ++freq[arr1[i]];
-    vector<int> ans;
+
+    int idx = 0;
     for (int i = 0; i < arr2.size();++i)
     {
         while(freq[arr2[i]])
         {
-            ans.push_back(arr2[i]);
+            arr1[idx++] = arr2[i];
             --freq[arr2[i]];
         }
     }
@@ -23,9 +26,9 @@ vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2)
     {   
         while(freq[i])
         {
-            ans.push_back(i);
+            arr1[idx++] = i;
             --freq[i];
         }
     }
-    return ans;
+    return arr1;
 }
