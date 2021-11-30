@@ -46,6 +46,7 @@ string toHex(int num)
         ans += getValue(sum);
     reverse(ans.begin(), ans.end());
     int i;
+    // '000001a'  '0'  find first non-zero char keeping ans length >= 1
     for (i = 0; i < ans.size()-1;++i)
     {
         if(ans[i] != '0')
