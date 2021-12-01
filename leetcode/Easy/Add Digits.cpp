@@ -10,15 +10,10 @@ int addDigits(int num)
         ans += num % 10;
         num /= 10;
 
-        if(num == 0)
+        if(num == 0 && ans > 9)
         {
-            if(ans > 9)
-            {
-                num = ans;
-                ans = 0;
-            }
-            else
-                break;
+            num = ans;
+            ans = 0;
         }
     }
     return ans;
