@@ -8,7 +8,6 @@ class RecentCounter
 public:
     vector<int> vec;
     int idx;
-    int cnt;
     RecentCounter()
     {
         idx = 0;
