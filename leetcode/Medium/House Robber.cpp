@@ -7,7 +7,7 @@ using namespace std;
 int dp[102];
 int solve(vector<int> &nums, int idx)
 {
-    if(idx == nums.size())
+    if(idx >= nums.size())
         return 0;
 
     int &ret = dp[idx];
