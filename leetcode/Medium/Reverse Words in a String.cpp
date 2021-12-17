@@ -27,6 +27,7 @@ string reverseWords(string s)
         }
     }
     s.resize(idx);
+    // reverse each word then reverse the whole string => every word will be just in place
     for (int i = -1, j = 0; j < s.size(); ++j)
     {
         if (s[j] != ' ' && (j == 0 || s[j - 1] == ' '))
