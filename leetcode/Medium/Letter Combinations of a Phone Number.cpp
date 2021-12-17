@@ -6,6 +6,7 @@ using namespace std;
 string arr[10];
 vector<string> ans;
 
+// O(S^n)  where s is max string size in arr and n is size of the input string
 void rec(string &s, string comb, int idx)
 {
     if(idx == s.size())
