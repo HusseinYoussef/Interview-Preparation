@@ -5,7 +5,12 @@ using namespace std;
 
 int findDuplicate(vector<int>& nums)
 {
-    while (nums[0] != nums[nums[0]])
-        swap(nums[0], nums[nums[0]]);
-    return nums[0];
+    // Move each element to its right place O(N)
+    for (int i = 0; i < nums.size();++i)
+    {
+        while(nums[i] != nums[nums[i] - 1])
+                swap(nums[i], nums[nums[i] - 1]);
+
+    }
+    return nums[nums.size() - 1];
 }
