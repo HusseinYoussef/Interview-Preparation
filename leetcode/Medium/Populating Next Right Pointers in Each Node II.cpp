@@ -19,35 +19,32 @@ class Node
             : val(_val), left(_left), right(_right), next(_next) {}
 };
 
+
 Node* findNext(Node* next)
 {
     while(next)
     {
         if(next->left)
             return next->left;
-        else if(next->right)
+        if(next->right)
             return next->right;
         next = next->next;
     }
     return nullptr;
 }
 
-void dfs(Node* node, Node* next = nullptr)
+void dfs(Node* node, Node* next)
 {
     if(node == nullptr)
         return;
     node->next = next;
-    // ** solve for right subtree first
     dfs(node->right, findNext(next));
-    if(node->right)
-        dfs(node->left, node->right);
-    else
-        dfs(node->left, findNext(next));
+    dfs(node->left, node->right ? node->right : findNext(next));
 }
 
 Node* connect(Node* root)
 {
-    dfs(root);
+    dfs(root, nullptr);
     return root;
 
     // BFS
