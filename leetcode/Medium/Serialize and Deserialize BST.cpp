@@ -44,9 +44,10 @@ public:
     }
 
     // Decodes your encoded data to tree.
+    // Insert each val in the tree
     TreeNode* deserialize(string data)
     {
-        vector<int> vec;
+        TreeNode *root = nullptr;
         int num = 0;
         for (int i = 0;i<data.size();++i)
         {
@@ -54,14 +55,9 @@ public:
                 num = num * 10 + (data[i] - '0');
             if(data[i] == '|' || i == data.size()-1)
             {
-                vec.push_back(num);
+                root = build(root, num);
                 num = 0;
             }
-        }
-        TreeNode *root = nullptr;
-        for (int i = 0; i < vec.size();++i)
-        {
-            root = build(root, vec[i]);
         }
         return root;
     }
