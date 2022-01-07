@@ -30,5 +30,21 @@ int solve(int cur, int buffer, int n)
 
 int maxA(int N)
 {
-    return solve(0, 0, N);
+    // return solve(0, 0, N);
+
+    int dp[N + 1];
+    dp[0] = 0;
+    for (int i = 1; i <= N; i++)
+    {
+        // press [ A ]
+        dp[i] = dp[i - 1] + 1;
+        for (int j = 2; j < i; j++)
+        {
+            // [Ctrl-A] & [Ctrl-C] -> dp[j-2], Paste i-j times
+            // There are { dp[j-2] * (i-j+1) }number of 'A' on the screen => dp[j-2] + dp[j-2] * (i-j) => take dp[j-2] as common factor
+            dp[i] = max(dp[i], dp[j - 2] * (i - j + 1));
+        }
+    }
+    // What is the maximum number of 'A' after N keystrokes?
+    return dp[N];
 }
