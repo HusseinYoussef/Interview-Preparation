@@ -20,7 +20,7 @@ void rec(vector<vector<int>> &sets, vector<int> &nums, vector<int> s, int idx, i
             s.pop_back();
         }
     }
-    rec(sets, nums, s, i, msk);
+    sets.push_back(s);
 }
 
 vector<vector<int>> subsets(vector<int>& nums)
