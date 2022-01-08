@@ -10,13 +10,17 @@ void rec(vector<vector<int>> &sets, vector<int> &nums, vector<int> s, int idx, i
         sets.push_back(s);
         return;
     }
-    if(((1 << idx) & msk) == 0)
+    int i;
+    for (i = idx; i < nums.size();++i)
     {
-        s.push_back(nums[idx]);
-        rec(sets, nums, s, idx + 1, msk | (1 << idx));
-        s.pop_back();
+        if (((1 << i) & msk) == 0)
+        {
+            s.push_back(nums[i]);
+            rec(sets, nums, s, i + 1, msk | (1 << i));
+            s.pop_back();
+        }
     }
-    rec(sets, nums, s, idx + 1, msk);
+    rec(sets, nums, s, i, msk);
 }
 
 vector<vector<int>> subsets(vector<int>& nums)
