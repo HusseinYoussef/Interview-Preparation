@@ -41,6 +41,7 @@ int kthSmallest(vector<vector<int>>& matrix, int k)
         }
         if(cnt < k)
             l = mid + 1;
+        // >= k to guarantee that l is in the matrix (mid itself is included in the k (count))
         else
             r = mid;
     }
