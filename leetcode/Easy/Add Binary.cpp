@@ -1,40 +1,26 @@
 #include <iostream>
-#include <string>
 #include <algorithm>
 
 using namespace std;
 
 string addBinary(string a, string b)
 {
-    int i = a.size() - 1, j = b.size() - 1;
-    bool carry = 0;
+    int n = a.size(), m = b.size();
+    int i = n - 1, j = m - 1, carry = 0;
     string ans = "";
     while(i >= 0 || j >= 0)
     {
-        int aval = (i >= 0) ? (a[i] - '0') : 0;
-        int bval = (j >= 0) ? (b[j] - '0') : 0;
-        int sum = (aval + bval + carry);
-        if(sum >= 2)
-        {
-            ans += (sum % 2) + '0';
-            carry = 1;
-        }
-        else
-        {
-            int val = aval + bval + carry;
-            ans += val + '0';
-            carry = 0;
-        }
-        --i, --j;
+        int d1 = 0, d2 = 0;
+        if(i >= 0)
+            d1 = a[i--] - '0';
+        if(j >= 0)
+            d2 = b[j--] - '0';
+        int sum = d1 + d2 + carry;
+        carry = sum > 1;
+        ans.push_back((sum % 2) + '0');
     }
     if(carry)
-        ans += '1';
+        ans.push_back('1');
     reverse(ans.begin(), ans.end());
     return ans;
-}
-
-int main()
-{
-    cout << addBinary("11", "110");
-    return 0;
 }
