@@ -14,7 +14,6 @@ def validIPAddress(queryIP: str) -> str:
         if ans:
             return "IPv4"
    
-    ans = True
     if len(ipv6) == 8:
         for s in ipv6:
             if not(1 <= len(s) <= 4):
@@ -23,6 +22,5 @@ def validIPAddress(queryIP: str) -> str:
                 if('0' <= c <= '9' or 'a' <= c <= 'f' or 'A' <= c <= 'F'):
                     continue
                 return "Neither"
-        if ans:
-            return "IPv6"
+        return "IPv6"
     return "Neither"
