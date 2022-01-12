@@ -7,9 +7,10 @@ using namespace std;
 int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid)
 {
     int n = obstacleGrid.size(), m = obstacleGrid[0].size();
-    if(obstacleGrid[n-1][m-1] == 1)
+    // obstacle in start or end positions
+    if(obstacleGrid[0][0] == 1 || obstacleGrid[n-1][m-1] == 1)
         return 0;
-    // long long is used for those dummy test cases that results in int overflow
+    // long long is used for those dummy test cases that result in Int-overflow
     // if d + r > INT_MAX, mark the cell as non-reachable -1  hacky
     long long tmp;
     obstacleGrid[n - 1][m - 1] = 1;
