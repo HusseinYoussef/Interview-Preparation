@@ -1,30 +1,18 @@
-#include <iostream>
 #include <vector>
 
 using namespace std;
 
 bool validMountainArray(vector<int>& arr)
 {
-    if(arr.size() < 3)
+    int n = arr.size();
+    if(n < 3)
         return false;
-
-    bool f = 0;
-    for (int i = 1; i < arr.size();++i)
-    {
-        if(arr[i] == arr[i-1])
-            return false;
-        if(f)
-        {
-            if(arr[i] >= arr[i-1])
-                return false;
-        }
-        else
-        {
-            if(arr[i] <= arr[i-1])
-                return false;
-        }
-        if(i < arr.size()-1 && arr[i] > arr[i-1] && arr[i] > arr[i+1])
-            f = 1;
-    }
-    return f;
+    int i = 1;
+    while(i < n && arr[i] > arr[i-1])
+        ++i;
+    if(i == 1 || i == n)
+        return false;
+    while(i < n && arr[i] < arr[i-1])
+        ++i;
+    return i == n;
 }
