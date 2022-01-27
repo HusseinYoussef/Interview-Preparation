@@ -1,6 +1,7 @@
 *.exe
 .vscode
 *.csproj
+*.sln
 
 #Build Results
 [Bb]in/
