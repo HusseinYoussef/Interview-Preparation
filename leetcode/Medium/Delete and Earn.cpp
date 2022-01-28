@@ -16,12 +16,13 @@ int deleteAndEarn(vector<int>& nums)
     }
     n = nums.size();
     int dp[10004];
-    dp[n] = 0;
-    dp[n-1] = nums[n-1] * freq[nums[n-1]];
-    for(int i = n-2;i>=0;--i)
+    dp[0] = nums[0] * freq[nums[0]];
+    if(n > 1)
+            dp[1] = max(dp[0], nums[1] * freq[nums[1]] + ((nums[0] + 1 == nums[1])? 0 : dp[0]));
+    // dp[i] -> answer to problem starting from 0 to i (inclusive)
+    for(int i = 2;i<n;++i)
     {
-        // take all element with value nums[i] or leave nums[i]
-        dp[i] = max(nums[i] * freq[nums[i]] + dp[i + 1 + (nums[i] + 1 == nums[i + 1])], dp[i + 1]);
+        dp[i] = max(dp[i-1], nums[i] * freq[nums[i]] + dp[i-1-(nums[i] - 1 == nums[i-1])]);
     }
-    return dp[0];
+    return dp[n-1];
 }
