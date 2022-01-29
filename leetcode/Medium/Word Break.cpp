@@ -50,7 +50,8 @@ bool solve(TrieNode* root, string &s, int idx)
 
     ret = 0;
     string tmp = "";
-    for (int i = idx; i < s.size();++i)
+    // max substring length won't exceed 20
+    for (int i = idx; i < min((int)s.size(), idx+20);++i)
     {
         tmp += s[i];
         if(search(root, tmp))
@@ -78,7 +79,7 @@ bool wordBreak(string s, vector<string>& wordDict)
     // {
     //     string tmp = "";
     //     dp[idx] = 0;
-    //     for (int i = idx; i < s.size();++i)
+    //     for (int i = idx; i < min((int)s.size(), idx+20);++i)
     //     {
     //         tmp += s[i];
     //         if(search(root, tmp))
