@@ -1,78 +1,91 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 #include <cstring>
 
 using namespace std;
 
 struct TrieNode
 {
-    TrieNode *childs[26];
+    TrieNode *children[26];
     bool isEnd;
     TrieNode()
     {
         for (int i = 0; i < 26;++i)
-            childs[i] = nullptr;
+            children[i] = nullptr;
         isEnd = 0;
     }
 };
 
-void insert(string &s)
+void insert(TrieNode* cur, string &word)
 {
-    TrieNode *tmp = root;
-    for (int i = 0; i < s.size();++i)
+    for (int i = 0; i < word.size();++i)
     {
-        if(tmp->childs[s[i]-'a'] == nullptr)
-            tmp->childs[s[i] - 'a'] = new TrieNode();
-        tmp = tmp->childs[s[i] - 'a'];
+        if(cur->children[word[i]-'a'] == nullptr)
+            cur->children[word[i] - 'a'] = new TrieNode();
+        cur = cur->children[word[i] - 'a'];
     }
-    tmp->isEnd = 1;
+    cur->isEnd = 1;
 }
 
-bool search(string &s)
+bool search(TrieNode* cur, string &word)
 {
-    TrieNode *tmp = root;
-    for (int i = 0; i < s.size();++i)
+    for (int i = 0; i < word.size();++i)
     {
-        if(tmp->childs[s[i]-'a'] == nullptr)
+        if(cur->children[word[i]-'a'] == nullptr)
             return false;
-        tmp = tmp->childs[s[i] - 'a'];
+        cur = cur->children[word[i] - 'a'];
     }
-    return tmp->isEnd;
+    return cur->isEnd;
 }
 
-TrieNode *root;
 int dp[305];
-bool ans = 0;
-// O(N^2)
-bool solve(string &s, int start)
+bool solve(TrieNode* root, string &s, int idx)
 {
-    if(start == s.size() || ans)
-        return true;
+    if(idx == s.size())
+        return 1;
 
-    int &ret = dp[start];
+    int &ret = dp[idx];
     if(~ret)
         return ret;
 
+    ret = 0;
     string tmp = "";
-    for (int i = start; i < s.size();++i)
+    for (int i = idx; i < s.size();++i)
     {
-        if(ans)
-            break;
         tmp += s[i];
-        if(search(tmp))
+        if(search(root, tmp))
         {
-            ans |= solve(s, i + 1);
+            ret |= solve(root, s, i + 1);
+            if(ret)
+                break;
         }
     }
-    return ret = ans;
+    return ret;
 }
 
 bool wordBreak(string s, vector<string>& wordDict)
 {
-    root = new TrieNode;
+    TrieNode *root = new TrieNode();
     for (int i = 0; i < wordDict.size();++i)
-        insert(wordDict[i]);
+        insert(root, wordDict[i]);
     memset(dp, -1, sizeof(dp));
-    return solve(s, 0);
+    return solve(root, s, 0);
+
+    // Bottom-Up
+    // int dp[305];
+    // dp[s.size()] = 1;
+    // for (int idx = s.size() - 1; idx >= 0;--idx)
+    // {
+    //     string tmp = "";
+    //     dp[idx] = 0;
+    //     for (int i = idx; i < s.size();++i)
+    //     {
+    //         tmp += s[i];
+    //         if(search(root, tmp))
+    //             dp[idx] |= dp[i + 1];
+    //         if(dp[idx])
+    //             break;
+    //     }
+    // }
+    // return dp[0];
 }
