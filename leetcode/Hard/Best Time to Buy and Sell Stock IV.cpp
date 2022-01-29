@@ -39,7 +39,7 @@ int maxProfit(int k, vector<int>& prices)
     //         // holdStock = 0
     //         dp[idx][tr][0] = max(dp[idx][tr][0], max(dp[idx + 1][tr][0], dp[idx + 1][tr][1] - prices[idx]));
     //         // holdStock = 1
-    //         dp[idx][tr][1] = max(dp[idx][tr][0], max(dp[idx + 1][tr][1], dp[idx + 1][tr - 1][0] + prices[idx]));
+    //         dp[idx][tr][1] = max(dp[idx][tr][1], max(dp[idx + 1][tr][1], dp[idx + 1][tr - 1][0] + prices[idx]));
     //     }
     // }
     // return dp[0][k][0];
