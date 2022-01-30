@@ -1,11 +1,35 @@
-#include <iostream>
 #include <vector>
 #include <climits>
+#include <cstring>
 
 using namespace std;
 
+int n, m;
+int dp[105][105];
+int solve(vector<vector<int>>& obstacleGrid, int i, int j)
+{
+    if(i == n || j == m || obstacleGrid[i][j] == 1)
+        return 0;
+    if(i == n-1 && j == m-1)
+        return 1;
+
+    int &ret = dp[i][j];
+    if(~ret)
+        return ret;
+
+    long long tmp = (long long)solve(obstacleGrid, i + 1, j) + (long long)solve(obstacleGrid, i, j + 1);
+    if(tmp > INT_MAX)
+        return ret = 0;
+    return ret = tmp;
+}
+
 int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid)
 {
+    memset(dp, -1, sizeof(dp));
+    n = obstacleGrid.size(), m = obstacleGrid[0].size();
+    return solve(obstacleGrid, 0, 0);
+
+    // Bottom-Up
     int n = obstacleGrid.size(), m = obstacleGrid[0].size();
     // obstacle in start or end positions
     if(obstacleGrid[0][0] == 1 || obstacleGrid[n-1][m-1] == 1)
@@ -18,7 +42,7 @@ int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid)
     {
         for (int j = m - 1; j >= 0;--j)
         {
-            if(i == n-1 && j == m-1 || obstacleGrid[i][j] == -1)
+            if(i == n-1 && j == m-1)
                 continue;
             // obstacle
             if(obstacleGrid[i][j] == 1)
@@ -33,7 +57,7 @@ int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid)
                 r = obstacleGrid[i][j + 1];
             tmp = d + r;
             if(tmp > INT_MAX)
-                obstacleGrid[i][j] = -1;
+                obstacleGrid[i][j] = 0;
             else
                 obstacleGrid[i][j] = tmp;
         }
