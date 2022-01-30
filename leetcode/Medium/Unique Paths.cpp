@@ -1,26 +1,42 @@
-#include <iostream>
 #include <vector>
+#include <cstring>
 
 using namespace std;
 
+int dp[105][105];
+int solve(int m,int n, int r, int c)
+{
+    if(r == m || c == n)
+        return 0;
+    if(r == m-1 && c == n-1)
+        return 1;
+
+    int &ret = dp[r][c];
+    if(~ret)
+        return ret;
+    return ret = solve(m, n, r + 1, c) + solve(m, n, r, c + 1);
+}
+
 int uniquePaths(int m, int n)
 {
-    int arr[m][n];
-    arr[m - 1][n - 1] = 1;
-    // Bottom -Up DP
-    for (int i = m - 1; i >= 0;--i)
+    memset(dp, -1, sizeof(dp));
+    return solve(m, n, 0, 0);
+
+    // Bottom-Up
+    int dp[m + 1][n + 1];
+    memset(dp, 0, sizeof(dp));
+    // Base Case
+    for (int i = 0; i < m;++i)
+        dp[i][n - 1] = 1;
+    for (int i = 0; i < n;++i)
+        dp[m - 1][i] = 1;
+
+    for (int i = m - 2; i >= 0;--i)
     {
-        for (int j = n - 1; j >= 0;--j)
+        for (int j = n - 2; j >= 0;--j)
         {
-            if (i == m-1 && j == n-1)
-                continue;
-            int d = 0, r = 0;
-            if(i+1 < m)
-                d = arr[i + 1][j];
-            if (j + 1 < n)
-                r = arr[i][j + 1];
-            arr[i][j] = d + r;
+            dp[i][j] += dp[i + 1][j] + dp[i][j + 1];
         }
     }
-    return arr[0][0];
+    return dp[0][0];
 }
