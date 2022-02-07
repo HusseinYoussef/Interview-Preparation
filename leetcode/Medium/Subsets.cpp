@@ -3,29 +3,23 @@
 
 using namespace std;
 
-void rec(vector<vector<int>> &sets, vector<int> &nums, vector<int> s, int idx, int msk)
+void rec(vector<vector<int>> &sets, vector<int> &nums, vector<int> &s, int idx)
 {
     if(idx == nums.size())
     {
         sets.push_back(s);
         return;
     }
-    int i;
-    for (i = idx; i < nums.size();++i)
-    {
-        if (((1 << i) & msk) == 0)
-        {
-            s.push_back(nums[i]);
-            rec(sets, nums, s, i + 1, msk | (1 << i));
-            s.pop_back();
-        }
-    }
-    sets.push_back(s);
+    rec(sets, nums, s, idx + 1);
+    s.push_back(nums[idx]);
+    rec(sets, nums, s, idx + 1);
+    s.pop_back();
 }
 
 vector<vector<int>> subsets(vector<int>& nums)
 {
     vector<vector<int>> ans;
-    rec(ans, nums, {}, 0, 0);
+    vector<int> s;
+    rec(ans, nums, s, 0);
     return ans;
 }
