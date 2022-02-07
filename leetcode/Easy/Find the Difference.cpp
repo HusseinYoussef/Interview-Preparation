@@ -6,24 +6,15 @@ using namespace std;
 
 char findTheDifference(string s, string t)
 {
-    vector<int> freq(30, 0);
-    for (int i = 0; i < s.size();++i)
-        freq[s[i] - 'a']++;
-
-    char ans = 'a';
-    for (int i = 0; i < t.size();++i)
+    vector<int>freq(26, 0);
+    for(int i = 0;i<t.size();++i)
     {
-        if(freq[t[i]-'a'] == 0)
-        {
-            ans = t[i];
-            break;
-        }
-        --freq[t[i] - 'a'];
+        ++freq[t[i]-'a'];
+        if(i < s.size())
+            --freq[s[i]-'a'];
     }
-    return ans;
-}
-
-int main()
-{
+    for(int i = 0;i<26;++i)
+        if(freq[i])
+            return i+'a';
     return 0;
 }
