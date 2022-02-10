@@ -6,9 +6,9 @@ int trailingZeroes(int n)
 {
     // trailing zeroes result from tens 10's
     // so look for how many 10 the factorial has
-    // 10 = 5*2, so look for how many 5's ans 2's
+    // 10 = 5*2, so look for how many 5's and 2's
 
-    // since number of 5's always <= number of 2's
+    // since number of 5's always <= number of 2's, then look for number of 5's only
 
     // O(n log n)
     int fives=0;
