@@ -1,0 +1,9 @@
+
+def isPrefixOfWord(sentence: str, searchWord: str) -> int:
+
+    l = len(searchWord)
+    words = sentence.split()
+    for idx, w in enumerate(words):
+        if w[:l] == searchWord:
+            return idx+1
+    return -1
