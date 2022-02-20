@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
@@ -46,23 +47,22 @@ string longestPalindrome(string s)
 // DP - Bottom Up Solution
 string longestPalindrome2(string s)
 {
-    bool dp[1005][1005];
     int n = s.size();
-    int len = 0, idx = -1;
-    for (int i = n-1; i >= 0;--i)
+    int mx = 0;
+    int idx = 0;
+    bool dp[1005][1005];
+    memset(dp, 0, sizeof(dp));
+    for (int i = n - 1; i >= 0;--i)
     {
         for (int j = i; j < n;++j)
         {
-            if(i == j)
-                dp[i][j] = 1;
-            else
-                dp[i][j] = (s[i] == s[j]) && ((j-i == 1) || dp[i + 1][j - 1]);
-            if(dp[i][j] == 1 && j-i+1 > len)
+            dp[i][j] = (s[i] == s[j]) && (j - i <= 1 || dp[i + 1][j - 1]);
+            if(dp[i][j] && j-i+1 > mx)
             {
-                len = j - i + 1;
+                mx = j-i+1;
                 idx = i;
             }
         }
     }
-    return s.substr(idx, len);
+    return s.substr(idx, mx);
 }
