@@ -16,15 +16,17 @@ ListNode * insert(ListNode * node, int x)
     if(node == nullptr)
         return newNode;
 
-    ListNode * tmp = node;
-    while(tmp->next->val < x && tmp->val <= tmp->next->val)
+    ListNode * cur = node;
+    while(true)
     {
-        tmp = tmp->next;
+        cur = cur->next;
+        if(cur->val <= x && (cur->next->val > x || cur->next->val < cur->val))
+            break;
         // Cycle
-        if(tmp == node)
+        if(cur == node)
             break;
     }
-    newNode->next = tmp->next;
-    tmp->next = newNode;
+    newNode->next = cur->next;
+    cur->next = newNode;
     return newNode;
 }
