@@ -1,50 +1,39 @@
-#include <vector>
-#include <queue>
+#include <iostream>
 #include <cstring>
 
 using namespace std;
 
 int dp[10004];
-int solve(vector<int> &squares, int n)
+int solve(int sum)
 {
-    if(n == 0)
+    if(sum == 0)
         return 0;
-    int &ret = dp[n];
+
+    int &ret = dp[sum];
     if(~ret)
         return ret;
 
-    ret = 1e8;
-    for(int i = 0;i<squares.size();++i)
-    {
-        if(squares[i] > n)
-            break;
-        ret = min(ret, solve(squares, n-squares[i]) + 1);
-    }
+    ret = 1e7;
+    for (int i = 1; i * i <= sum;++i)
+        ret = min(ret, solve(sum - i * i) + 1);
     return ret;
 }
 
 int numSquares(int n)
 {
-    vector<int> squares;
     memset(dp, -1, sizeof(dp));
-    for(int i = 1;i*i<=n;++i)
-        squares.push_back(i*i);
-    return solve(squares, n);
+    return solve(n);
 
-    // queue<pair<int, int>>q;
-    // q.push({0,n});
-    // while(!q.empty())
-    // {
-    //     pair<int, int> p = q.front();
-    //     q.pop();
-    //     for(int i = 0;i<squares.size();++i)
-    //     {
-    //         if(squares[i] > p.second)
-    //             break;
-    //         if(p.second-squares[i] == 0)
-    //             return p.first+1;
-    //         q.push({p.first+1, p.second-squares[i]});
-    //     }
-    // }
-    // return 0;
+    // Bottom Up
+    int dp[10004];
+    dp[0] = 0;
+    for (int sum = 1; sum <= n;++sum)
+    {
+        dp[sum] = 1e7;
+        for (int i = 1; i * i <= sum;++i)
+        {
+            dp[sum] = min(dp[sum], dp[sum - i * i] + 1);
+        }
+    }
+    return dp[n];
 }
