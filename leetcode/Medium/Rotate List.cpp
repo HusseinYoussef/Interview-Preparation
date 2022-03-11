@@ -10,15 +10,15 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-ListNode * reverse(ListNode*head, ListNode* end=nullptr)
+ListNode* reverse(ListNode* cur, ListNode* end=nullptr)
 {
     ListNode *pre = nullptr;
-    while(head != end)
+    while(cur && cur != end)
     {
-        ListNode *tmp = head->next;
-        head->next = pre;
-        pre = head;
-        head = tmp;
+        ListNode *nxt = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = nxt;
     }
     return pre;
 }
@@ -27,29 +27,28 @@ ListNode* rotateRight(ListNode* head, int k)
 {
     if(head == nullptr)
         return nullptr;
+    
+    ListNode *tmp = head;
     int n = 0;
-    ListNode *tmp = head, *kthNode = nullptr;
     while(tmp)
     {
         tmp = tmp->next;
-        n++;
+        ++n;
     }
-    k = k % n;
+    k %= n;
     tmp = head;
+    ListNode *kthNode = nullptr;
     n = 0;
     while(tmp)
     {
         if(n == k)
             kthNode = head;
         tmp = tmp->next;
-        kthNode = kthNode ? kthNode->next : nullptr;
+        if(kthNode)
+            kthNode = kthNode->next;
         ++n;
     }
     ListNode *l = reverse(head, kthNode), *r = reverse(kthNode);
-    tmp = l;
-    while(tmp->next)
-        tmp = tmp->next;
-    tmp->next = r;
-    head = reverse(l);
-    return head;
+    head->next = r;
+    return reverse(l);
 }
