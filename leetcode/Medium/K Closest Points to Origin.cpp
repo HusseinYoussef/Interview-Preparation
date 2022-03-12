@@ -1,24 +1,24 @@
-#include <iostream>
 #include <vector>
 #include <queue>
 
 using namespace std;
 
- vector<vector<int>> kClosest(vector<vector<int>>& points, int k)
- {
-      priority_queue<pair<double,int>> pq;
-      for(int i =0;i<points.size();++i)
-      {
-          double dis = sqrt(points[i][0] * points[i][0] + points[i][1] * points[i][1]);
-          pq.push({dis, i});
-          if(pq.size()>k)
+vector<vector<int>> kClosest(vector<vector<int>> &points, int k)
+{
+    int n = points.size();
+    priority_queue<pair<int, int>> pq;
+    for (int i = 0; i < points.size();++i)
+    {
+        int x = points[i][0], y = points[i][1];
+        pq.push({x * x + y * y, i});
+        if(pq.size() > k)
             pq.pop();
-      }
-      vector<vector<int>> ans;
-      while(!pq.empty())
-      {
-          ans.push_back(points[pq.top().second]);
-          pq.pop();
-      }
-      return ans;
+    }
+    vector<vector<int>> ans;
+    while(pq.size())
+    {
+        ans.push_back(points[pq.top().second]);
+        pq.pop();
+    }
+    return ans;
 }
