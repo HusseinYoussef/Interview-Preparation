@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <cstring>
+#include <unordered_map>
 
 using namespace std;
 
@@ -12,37 +10,32 @@ public:
     
     Node(int _val) {
         val = _val;
-        next = NULL;
-        random = NULL;
+        next = nullptr;
+        random = nullptr;
     }
 };
 
 Node* copyRandomList(Node* head)
 {
-    Node *tmp = head;
-    Node *cur = nullptr, *deepHead = nullptr;
-    int i = 0;
-    Node *arr[1005];
+    unordered_map<int, Node *> mp;
+    Node dummy = Node(0);
+    Node *tmp = head, *cur = &dummy;
+    int idx = 0;
     while(tmp)
     {
-        Node *node = new Node(tmp->val);
-        if(cur == nullptr)
-            deepHead = node;        
-        else
-            cur->next = node;
-
-        cur = node;
-        arr[i] = cur;
-        tmp->val = i++;
-        tmp = tmp->next;
-    }
-    tmp = head;
-    cur = deepHead;
-    while(tmp)
-    {
-        cur->random = tmp->random ? arr[tmp->random->val] : nullptr;
-        tmp = tmp->next;
+        cur->next = new Node(tmp->val);
+        mp[idx] = cur->next;
+        tmp->val = idx++;
         cur = cur->next;
+        tmp = tmp->next;
     }
-    return deepHead;
+    tmp = head, cur = dummy.next;
+    while(tmp)
+    {
+        if(tmp->random)
+            cur->random = mp[tmp->random->val];
+        cur = cur->next;
+        tmp = tmp->next;
+    }
+    return dummy.next;
 }
