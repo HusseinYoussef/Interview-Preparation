@@ -6,19 +6,26 @@ using namespace std;
 
 vector<int> sortedSquares(vector<int>& nums)
 {
-    int freq[10004];
-    memset(freq, 0, sizeof(freq));
-    for (int i = 0; i < nums.size();++i)
-        ++freq[abs(nums[i])];
-    vector<int> ans;
-    for (int i = 0; i < 10004;++i)
+    // Make use of the sorting
+    // O(n) Time, O(n) Space
+    int n = nums.size();
+    vector<int> ans(n);
+    int l = 0, r = n - 1;
+    int idx = n - 1;
+    while(l <= r)
     {
-        int cnt = freq[i];
-        while(cnt)
+        // one of the two ends (l, r) will have the next value (biggest value) to store in ans
+        if(abs(nums[r]) >= abs(nums[l]))
         {
-            ans.push_back(i * i);
-            --cnt;
+            ans[idx] = nums[r] * nums[r];
+            --r;
         }
+        else
+        {
+            ans[idx] = nums[l] * nums[l];
+            ++l;
+        }
+        --idx;
     }
     return ans;
 }
