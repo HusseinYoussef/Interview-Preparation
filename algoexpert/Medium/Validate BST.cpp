@@ -36,6 +36,17 @@ pair<int, int> rec(BST *node)
     return {max(node->value, r.first), min(node->value, l.second)};
 }
 
+// Better solution
+bool rec(BST *tree, int mn=INT_MIN, int mx=INT_MAX)
+{
+		if(tree == nullptr)
+			return true;
+		
+		bool l = rec(tree->left, mn, tree->value);
+		bool r = rec(tree->right, tree->value, mx);
+		return l && r && tree->value >= mn && tree->value < mx;
+}
+
 bool validateBst(BST *tree)
 {
     rec(tree);
