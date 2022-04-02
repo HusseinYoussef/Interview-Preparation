@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -37,6 +38,17 @@ pair<int,int> isBST(TreeNode* node)
         mx = max(mx, r.second);
     }
     return {mn, mx};
+}
+
+bool rec(TreeNode* node, long mn=LONG_MIN, long mx=LONG_MAX)
+{
+    if(node == nullptr)
+        return true;
+    
+    bool l = rec(node->left, mn, node->val);
+    bool r = rec(node->right, node->val, mx);
+    
+    return l && r && node->val > mn && node->val < mx;
 }
 
 bool isValidBST(TreeNode* root)
