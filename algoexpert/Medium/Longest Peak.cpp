@@ -29,3 +29,29 @@ int longestPeak(vector<int> array)
     }
     return ans;
 }
+
+// Solution 2
+int longestPeak(vector<int> array)
+{
+    int n = array.size();
+    int ans = 0;
+    for (int i = 0; i < n - 1;++i)
+    {
+        // walk up
+        int st = i;
+        while(array[i] < array[i+1])
+            ++i;
+
+        if(i == st)
+            continue;
+        if(i+1 < n && array[i] > array[i+1]) // possible peak
+        {
+            // walk down
+            while (i+1 < n && array[i] > array[i+1])
+                ++i;
+            ans = max(ans, i - st + 1);
+            --i;
+        }
+    }
+    return ans;
+}
