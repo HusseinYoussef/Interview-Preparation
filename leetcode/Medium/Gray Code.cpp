@@ -1,25 +1,25 @@
 #include <vector>
-#include <bitset>
 
 using namespace std;
 
-// must be reference &bits not bits
-void rec(vector<int> &ans, bitset<32> &bits, int bit)
+// traverse bits from left or right doesn't matter
+int msk = 0;
+void rec(vector<int> &ans, int idx, int n)
 {
-    if(bit < 0)
+    if(idx == n)
     {
-        ans.push_back(bits.to_ulong());
+        ans.push_back(msk);
         return;
     }
-    rec(ans, bits, bit-1);
-    bits.flip(bit);
-    rec(ans, bits, bit-1);
+
+    rec(ans, idx + 1, n);
+    msk ^= 1 << idx;
+    rec(ans, idx + 1, n);
 }
 
 vector<int> grayCode(int n)
 {
     vector<int> ans;
-    bitset<32> bits;
-    rec(ans, bits, n-1);
+    rec(ans, 0, n);
     return ans;
 }
