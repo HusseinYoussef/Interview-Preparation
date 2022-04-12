@@ -1,30 +1,19 @@
-#include <iostream>
 #include <vector>
 
 using namespace std;
 
 void sortColors(vector<int>& nums)
 {
-    int l = 0, r = nums.size() - 1;
-    int idx = 0;
-    while(l < nums.size() && r >= 0 && idx <= r)
+    int n = nums.size();
+    int l = 0, r = n - 1;
+    for (int i = 0; i <= r;++i)
     {
-        while(l < nums.size() && nums[l] == 0)
-            ++l;
-        while(r >= 0 && nums[r] == 2)
-            --r;
-        if(l > nums.size() || r < 0)
-            break;
-        if(nums[idx] == 0 && idx >= l)
+        while((nums[i] == 0 || nums[i] == 2) && i >= l && i <= r)
         {
-            swap(nums[idx], nums[l++]);
-            continue;
+            if(nums[i] == 0)
+                swap(nums[i], nums[l++]);
+            else
+                swap(nums[i], nums[r--]);
         }
-        else if(nums[idx] == 2)
-        {
-            swap(nums[idx], nums[r--]);
-            continue;
-        }
-        ++idx;
     }
 }
