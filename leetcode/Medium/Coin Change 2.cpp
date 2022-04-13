@@ -47,4 +47,23 @@ int change(int amount, vector<int>& coins)
     //     }
     // }
     // return dp[0][amount];
+
+    // Rolling O(amount) Space
+    // int n = coins.size();
+    // int dp[2][5005];
+    // memset(dp, 0, sizeof(dp));
+    // dp[0][0] = dp[1][0] = 1;
+
+    // bool roll = 0;
+    // for (int idx = n - 1; idx >= 0;--idx)
+    // {
+    //     for (int left = 1; left <= amount;++left)
+    //     {
+    //         dp[roll][left] = dp[!roll][left];
+    //         if(coins[idx] <= left)
+    //             dp[roll][left] += dp[roll][left - coins[idx]];
+    //     }
+    //     roll = !roll;
+    // }
+    // return dp[!roll][amount];
 }
