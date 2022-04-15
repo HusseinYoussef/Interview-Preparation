@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <queue>
@@ -6,36 +7,42 @@ using namespace std;
 
 int ladderLength(string beginWord, string endWord, vector<string>& wordList)
 {
+    wordList.push_back(beginWord);
     int n = wordList.size();
-    unordered_map<string, int> dist;
-    for(int i =0;i<n;++i)
-        dist[wordList[i]] = 0;
-    if(dist.find(endWord) == dist.end())
-        return 0;
-    dist[beginWord] = 1;
-    queue<string>q;
-    q.push(beginWord);
-    while(!q.empty())
+    unordered_map<string, int> mp;
+    for (int i = 0; i < n;++i)
+        mp[wordList[i]] = i;
+
+    vector<int> dist(n + 1, -1);
+    queue<int> q;
+    q.push(n-1);
+    dist[n-1] = 1;
+    while (!q.empty())
     {
-        string node = q.front();
+        string node = wordList[q.front()];
+        int cst = dist[mp[node]];
         q.pop();
-        int cost = dist[node];
-        for(int i = 0;i<node.size();++i)
-        {    
-            for(int j = 0;j<26;++j)
+
+        for (int i = 0; i < node.size();++i)
+        {
+            char tmp = node[i];
+            for (int c = 0; c < 26;++c)
             {
-                if(j != node[i]-'a')
+                if(node[i] != c + 'a')
                 {
-                    string tmp = node;
-                    tmp[i] = j + 'a';
-                    if(dist.find(tmp) != dist.end() && dist[tmp] == 0)
+                    node[i] = c + 'a';
+                    if(mp.find(node) != mp.end() && dist[mp[node]] == -1)
                     {
-                        dist[tmp] = cost + 1;
-                        q.push(tmp);
+                        if(node == endWord)
+                            return cst + 1;
+
+                        dist[mp[node]] = cst + 1;
+                        q.push(mp[node]);
                     }
                 }
             }
+            node[i] = tmp;
         }
     }
-    return dist[endWord];
+    return 0;
 }
