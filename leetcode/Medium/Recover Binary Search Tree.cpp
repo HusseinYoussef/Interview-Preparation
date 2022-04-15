@@ -11,27 +11,25 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-
 TreeNode* first = nullptr;
 TreeNode* second = nullptr;
-TreeNode* pre = new TreeNode(INT_MIN);
-void inOrder(TreeNode* root)
+TreeNode* pre = nullptr;
+void inorder(TreeNode* node)
 {
-    if(root == nullptr)
+    if(node == nullptr)
         return;
-
-    inOrder(root->left);
-
-    if(first == nullptr && pre->val > root->val)
+    
+    inorder(node->left);
+    
+    if(first == nullptr && pre && node->val < pre->val)
         first = pre;
-    if(first != nullptr && root->val < pre->val)
-        second = root;
-    pre = root;
-    inOrder(root->right);
+    if(first != nullptr && pre && node->val < pre->val)
+        second = node;
+    pre = node;
+    inorder(node->right);
 }
 
-void recoverTree(TreeNode* root)
-{
-    inOrder(root);
+void recoverTree(TreeNode* root) {
+    inorder(root);
     swap(first->val, second->val);
 }
