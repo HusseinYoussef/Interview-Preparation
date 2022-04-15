@@ -11,21 +11,20 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-TreeNode* solve(TreeNode* node)
+TreeNode *pre = nullptr;
+void solve(TreeNode* node)
 {
     if(node == nullptr)
-        return nullptr;
+        return;
 
-    TreeNode *l = solve(node->left);
-    TreeNode *r = solve(node->right);
+    // tmp r since it may get changed
+    TreeNode *r = node->right;
+    if(pre)
+        pre->right = node;
+    pre = node;
+    solve(node->left);
+    solve(r);
     node->left = nullptr;
-
-    node->right = (l) ? l : r;
-    while(l && l->right)
-        l = l->right;
-    if(l)
-        l->right = r;
-    return node;
 }
 
 void flatten(TreeNode* root)
