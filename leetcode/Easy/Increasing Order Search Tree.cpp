@@ -1,5 +1,3 @@
-#include <iostream>
-
 using namespace std;
 
 struct TreeNode {
@@ -11,25 +9,28 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-TreeNode* tree, *cur;
-void inOrder(TreeNode* node)
+TreeNode* pre = nullptr, *head = nullptr;
+void inorder(TreeNode* node)
 {
     if(node == nullptr)
         return;
-    inOrder(node->left);
-    if(tree == nullptr)
+    
+    inorder(node->left);    
+    if(pre)
     {
-        tree = cur = node;
+        pre->left = nullptr;
+        pre->right = node;
     }
     else
-    {
-        cur = cur->right = node;
-    }
-    node->left = nullptr;
-    inOrder(node->right);
+        head = node;
+    pre = node;
+    inorder(node->right);
 }
 
-TreeNode* increasingBST(TreeNode* root) {
-    inOrder(root);
-    return tree;
+TreeNode* increasingBST(TreeNode* root)
+{
+    inorder(root);
+    if(pre)
+        pre->left = pre->right = nullptr;
+    return head;
 }
