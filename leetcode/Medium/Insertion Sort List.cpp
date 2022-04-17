@@ -12,6 +12,31 @@ struct ListNode {
 
 ListNode* insertionSortList(ListNode* head)
 {
+    // O(1) Space
+    if(head == nullptr)
+        return nullptr;
+    
+    ListNode* cur = head->next;
+    head->next = nullptr;
+    while(cur)
+    {
+        ListNode* l = head, *pre = nullptr, *nxt = cur->next;
+        while(l && l->val < cur->val)
+        {
+            pre = l;
+            l = l->next;
+        }
+        cur->next = l;
+        if(pre)
+            pre->next = cur;
+        else
+            head = cur;
+
+        cur = nxt;
+    }
+    return head;
+
+    // O(N) Space
     ListNode* cur = head, * newHead = nullptr;
     while(cur)
     {
