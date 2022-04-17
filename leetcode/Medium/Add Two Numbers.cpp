@@ -13,41 +13,40 @@ struct ListNode
 
 ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
 {
-    ListNode *h1 = l1, *h2 = l2, *pre = nullptr;
-    int d1 , d2 , carry = 0;
-    while(h1 || h2)
-    {
-        d1 = 0, d2 = 0;
-        if(h1 != nullptr)
-            d1 = h1->val;
-        if(h2 != nullptr)
-            d2 = h2->val;
+    ListNode* dummy = new ListNode(0);
+    ListNode* cur = dummy, *l = l1, *r = l2;
 
-        int sum = d1 + d2 + carry;
-        carry = sum >= 10;
-        if(h1 != nullptr)
+    bool c = 0;
+    while(l || r)
+    {
+        int d1 = 0, d2 = 0;
+        if(l)
+            d1 = l->val;
+        if(r)
+            d2 = r->val;
+
+        int sum = d1 + d2 + c;
+        c = sum >= 10;
+        sum %= 10;
+
+        if(l)
         {
-            h1->val = carry ? sum % 10 : sum;
-            pre = h1;
+            l->val = sum;
+            cur->next = l;
         }
         else
         {
-            ListNode* node = new ListNode(carry ? sum % 10 : sum);
-            pre->next = node;
-            pre = node;
+            r->val = sum;
+            cur->next = r;
         }
-        h1 = h1 ? h1->next : nullptr;
-        h2 = h2 ? h2->next : nullptr;
+
+        if(l)
+            l = l->next;
+        if(r)
+            r = r->next;
+        cur = cur->next;
     }
-    if(carry)
-    { 
-        if(h1 != nullptr)
-            h1->val = carry;
-        else
-        {
-            ListNode* node = new ListNode(carry);
-            pre->next = node;
-        }
-    }
-    return l1;
+    if(c)
+        cur->next = new ListNode(1);
+    return dummy->next;
 }
