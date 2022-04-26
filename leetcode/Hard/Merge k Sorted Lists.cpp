@@ -12,34 +12,34 @@ struct ListNode {
 };
 
   
-bool static cmp(ListNode *l, ListNode *r)
+bool static cmp(ListNode* a, ListNode* b)
 {
-    return l->val > r->val;
+    return a->val > b->val;
 }
 
-ListNode* mergeKLists(vector<ListNode*>& lists)
+ListNode* mergeKLists(vector<ListNode*>& arr)
 {
-    int k = lists.size();
-    priority_queue<ListNode *, vector<ListNode *>, function<bool(ListNode *, ListNode *)>> pq(cmp);
+    ListNode *dummy = new ListNode(0);
+    ListNode *cur = dummy;
+    int n = arr.size();
 
-    for(int i =0;i<k;++i)
+    priority_queue<ListNode *, vector<ListNode *>, function<bool(ListNode *, ListNode *)>> pq(cmp);
+    for (int i = 0; i < n;++i)
     {
-        if(lists[i] != nullptr)
-            pq.push(lists[i]);
+        if(arr[i] != nullptr)
+        {
+            pq.push(arr[i]);
+        }
     }
 
-    if(pq.empty())
-        return nullptr;
-
-    ListNode *head = pq.top();
     while(!pq.empty())
     {
         ListNode *node = pq.top();
         pq.pop();
+        cur->next = node;
+        cur = cur->next;
         if(node->next)
             pq.push(node->next);
-
-        node->next = (pq.size())? pq.top():nullptr;
     }
-    return head;
+    return dummy->next;
 }
