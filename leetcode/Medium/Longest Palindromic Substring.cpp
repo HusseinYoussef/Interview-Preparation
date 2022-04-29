@@ -52,15 +52,19 @@ string longestPalindrome2(string s)
     int idx = 0;
     bool dp[1005][1005];
     memset(dp, 0, sizeof(dp));
-    for (int i = n - 1; i >= 0;--i)
+    for (int l = s.size() - 1; l >= 0;--l)
     {
-        for (int j = i; j < n;++j)
+        for (int r = l; r < s.size();++r)
         {
-            dp[i][j] = (s[i] == s[j]) && (j - i <= 1 || dp[i + 1][j - 1]);
-            if(dp[i][j] && j-i+1 > mx)
+            if(r - l <= 1)
+                dp[l][r] = s[l] == s[r];
+            else
+                dp[l][r] = (s[l] == s[r]) && dp[l + 1][r - 1];
+
+            if(dp[l][r] && r-l+1 > mx)
             {
-                mx = j-i+1;
-                idx = i;
+                mx = r-l+1;
+                idx = l;
             }
         }
     }
