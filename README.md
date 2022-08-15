@@ -1,3 +1,3 @@
 # Interview Preparation
 
-This repo demonstrates how I prepare for coding interviews.
+This repo contains my solutions to many problems using mainly C++ and sometimes Python.
