@@ -16,18 +16,6 @@ void dfs(int node, vector<vector<int>> &G)
     }
 }
 
-long long sumOfProductOfAllPairs(vector<int> &vec)
-{
-    // (a + b + c)^2 = a^2 + b^2 + c^2 + 2*(a*b + b*c + c*a)
-    long long sum = 0, squaresSum = 0;
-    for(int i = 0;i<vec.size();++i)
-    {
-        sum += vec[i];
-        squaresSum += (long long)vec[i] * vec[i];
-    }
-    return ((sum * sum) - squaresSum) / 2;
-}
-
 long long countPairs(int n, vector<vector<int>>& edges)
 {
     vector<vector<int>> G(n);
@@ -39,15 +27,17 @@ long long countPairs(int n, vector<vector<int>>& edges)
         G[edges[i][1]].push_back(edges[i][0]);
     }
 
-    vector<int> componentsSizes;
+    int remainingNodes = n;
+    long long ans = 0;
     for(int i = 0;i<n;++i)
     {
         if (!vis[i])
         {
             sz = 0;
             dfs(i, G);
-            componentsSizes.push_back(sz);
+            ans += (long long)sz * (remainingNodes - sz);
+            remainingNodes -= sz;
         }
     }
-    return sumOfProductOfAllPairs(componentsSizes);
+    return ans;
 }
