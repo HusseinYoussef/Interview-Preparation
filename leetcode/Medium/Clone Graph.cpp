@@ -3,8 +3,9 @@
 
 using namespace std;
 
-class Node
-{
+/*
+// Definition for a Node.
+class Node {
 public:
     int val;
     vector<Node*> neighbors;
@@ -21,33 +22,41 @@ public:
         neighbors = _neighbors;
     }
 };
+*/
 
-Node *arr[105];
-void copy(Node* node, Node* cpy)
-{
-    arr[cpy->val] = cpy;
-    for (int i = 0; i < node->neighbors.size();++i)
+class Solution {
+public:
+    Node* mp[105];
+    void dfs(Node* node)
     {
-        if(arr[node->neighbors[i]->val] == nullptr)
+        if (mp[node->val] == nullptr)
         {
-            Node *tmp = new Node(node->neighbors[i]->val);
-            cpy->neighbors.push_back(tmp);
-            copy(node->neighbors[i], tmp);
+            Node* tmp = new Node(node->val);
+            mp[node->val] = tmp;
         }
-        else
+        Node* cpyNode = mp[node->val];
+
+        for (int i = 0;i<node->neighbors.size();++i)
         {
-            cpy->neighbors.push_back(arr[node->neighbors[i]->val]);
+            Node* child = node->neighbors[i];
+
+            if (mp[child->val] == nullptr)
+                dfs(child);
+
+            if (mp[child->val] != nullptr)
+                cpyNode->neighbors.push_back(mp[child->val]);
         }
     }
-}
 
-Node* cloneGraph(Node* node)
-{
-    if(!node)
-        return nullptr;
-    for (int i = 0; i < 105;++i)
-        arr[i] = nullptr;
-    Node *cpy = new Node(node->val);
-    copy(node, cpy);
-    return cpy;
-}
+    Node* cloneGraph(Node* node)
+    {
+        if (!node)
+            return nullptr;
+
+        for(int i = 0;i<105;++i)
+            mp[i] = nullptr;
+
+        dfs(node);
+        return mp[node->val];
+    }
+};
