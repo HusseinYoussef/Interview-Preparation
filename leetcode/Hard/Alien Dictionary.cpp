@@ -42,7 +42,7 @@ string alienOrder(vector<string> &words)
             }
             ++k;
         }
-        if (!f && words[j].size() < words[i].size())
+        if (!f && words[j].size() < words[i].size()) // j is prefix of i
             return "";
     }
 
