@@ -1,31 +1,21 @@
-#include <queue>
-
-using namespace std;
-
 class SmallestInfiniteSet {
 public:
     priority_queue<int, vector<int>, greater<int>> pq;
     bool freq[1005];
-    int cur;
     SmallestInfiniteSet()
     {
-        cur = 1;
-        for(int i = 0;i<=1000;++i)
+        for(int i = 1;i<=1000;++i)
+        {
             freq[i] = 1;
+            pq.push(i);
+        }
     }
     
     int popSmallest()
     {
-        int val = cur;
-        if (!pq.empty() && pq.top() < cur)
-        {
-            val = pq.top();
-            pq.pop();
-        }
-        else
-            ++cur;
-
+        int val = pq.top();
         freq[val] = 0;
+        pq.pop();
         return val;
     }
     
