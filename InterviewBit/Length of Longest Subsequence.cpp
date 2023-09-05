@@ -4,55 +4,60 @@
 using namespace std;
 
 int n;
-int dp1[3005]; // Longest Increasing Subsequence Uptill i
-int dp2[3005]; // Longest Decreasing Subsequence Starting with i
-// Longest Increasing Subsequence
-int lis(const vector<int> &A, int idx, int pre)
-{
-    int &ret = dp1[idx];
-    if(~ret)
-        return ret;
+int dp1[3002];
+int dp2[3002];
 
-    ret = 0;
-    for (int i = idx; i >= 0;--i)
-    {
-        if(A[i] < pre)
-            ret = max(ret, lis(A, i - 1, A[i]) + 1);
-    }
-    return ret;
-}
-// Longest Decreasing Subsequence
-int lds(const vector<int> &A, int idx, int pre)
+// 2 LDS: from left to right and from right to left
+// LDS from 0 -> i
+int LDSR(const vector<int> &arr, int pre)
 {
-    int &ret = dp2[idx];
-    if(~ret)
+    int &ret = dp1[pre];
+    if (~ret)
         return ret;
-
+        
     ret = 0;
-    for (int i = idx; i < n;++i)
+    for (int i = pre - 1;i>=0;--i)
     {
-        if(A[i] < pre)
-            ret = max(ret, lds(A, i + 1, A[i]) + 1);
+        if (arr[i] < arr[pre])
+            ret = max(ret, LDSR(arr, i) + 1);
     }
+    
     return ret;
 }
 
-int longestSubsequenceLength(const vector<int> &A)
+// LDS from i -> n
+int LDSL(const vector<int> &arr, int pre)
+{
+    int &ret = dp2[pre];
+    if (~ret)
+        return ret;
+        
+    ret = 0;
+    for (int i = pre + 1;i<n;++i)
+    {
+        if (arr[i] < arr[pre])
+            ret = max(ret, LDSL(arr, i) + 1);
+    }
+    
+    return ret;
+}
+
+int Solution::longestSubsequenceLength(const vector<int> &A)
 {
     n = A.size();
     memset(dp1, -1, sizeof(dp1));
     memset(dp2, -1, sizeof(dp2));
 
-    for (int i = 0, j = n - 1; i < n; ++i, --j)
+    for (int i = 0, j = n-1; i<n;++i, --j)
     {
-        dp1[j] = max(dp1[j], lis(A, j - 1, A[j]) + 1);
-        dp2[i] = max(dp2[i], lds(A, i + 1, A[i]) + 1);
+        dp1[j] = max(dp1[j], LDSR(A, j) + 1);
+        dp2[i] = max(dp2[i], LDSL(A, i) + 1);
     }
-    int ans = 0;
-    for (int i = 0; i < n;++i)
-        ans = max(ans, dp1[i] + dp2[i] - 1);
-    return ans;
 
+    int ans = 0;
+    for (int i = 0;i<n;++i)
+        ans = max(ans, dp1[i] + dp2[i] - 1);    
+    return ans;
 
     // ***** Bottom Up *****
 
